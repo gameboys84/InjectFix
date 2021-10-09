@@ -97,7 +97,14 @@ Helloworld.OnGUI () (at <f10ec22c45d0465d8300973964c3ce26>:0)
 - 基础MonoBehavior接口
 
 ```
-1public interface IMonoBehaviour 2{ 3    void Start();//简单demo，只定义了Start方法，实际Awake，Update，OnDestroy。。。都类似 4 5    void Update(); 6} 
+public interface IMonoBehaviour
+{
+    ...
+    void Start();
+    void Update();
+    void OnDestroy();
+    ...
+}
 ```
 
 - 间隔继承
