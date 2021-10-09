@@ -96,7 +96,7 @@ Helloworld.OnGUI () (at <f10ec22c45d0465d8300973964c3ce26>:0)
 
 - 基础MonoBehavior接口
 
-```
+```csharp
 public interface IMonoBehaviour
 {
     ...
@@ -107,14 +107,22 @@ public interface IMonoBehaviour
 }
 ```
 
-- 间隔继承
+- 间接继承
 
 ```csharp
-public interface IMonoBehaviour
+public class VMMonoBehaviour : IMonoBehaviour
 {
-    void Start();//简单demo，只定义了Start方法，实际Awake，Update，OnDestroy。。。都类似
-
-    void Update();
+    public virtual void Start()
+    {
+    }
+    
+    public virtual void Update()
+    {
+    }
+    
+    public virtual void OnDestroy()
+    {
+    }
 }
 ```
 
