@@ -41,3 +41,6 @@
 
 请通过[issue](https://github.com/Tencent/InjectFix/issues)来咨询及反馈问题，便于后续跟踪及检索。
 
+## 扩展说明
+* [真机测试文档](./README_ADD.md)
+
