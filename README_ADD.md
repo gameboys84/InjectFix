@@ -129,9 +129,9 @@ public class VMMonoBehaviour : IMonoBehaviour
 - 动态挂接
 
 ```csharp
-        var go = new GameObject("NewClassTest3");
+        var go = new GameObject("VMMonoBehaviour");
         var behaviour = go.AddComponent(typeof(VMBehaviourScript)) as VMBehaviourScript;
-        behaviour.VMMonoBehaviour = new NewClassTest3();
+        behaviour.VMMonoBehaviour = new VMMonoBehaviour();
 ```
 
  
