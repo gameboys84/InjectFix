@@ -10,13 +10,6 @@ using System.IO;
 //4、NewClassTest.cs拖到场景，运行看下效果，此时只加载SubSystem1；
 //5、把生成的补丁拷贝到Resources下，再次运行看下效果；
 
-public interface IMonoBehaviour
-{
-    void Start();//简单demo，只定义了Start方法，实际Awake，Update，OnDestroy。。。都类似
-
-    void Update();
-}
-
 public interface ISubSystem
 {
     bool running { get; }
