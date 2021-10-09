@@ -1,0 +1,7 @@
+Source/UnityProj/.idea
+Source/UnityProj/Library
+Source/UnityProj/Logs
+Source/UnityProj/obj
+*.apk
+Assembly-CSharp*.*
+UnityProj.sln

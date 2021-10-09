@@ -8,6 +8,8 @@
 using System.Collections.Generic;
 using IFix;
 using System;
+using System.Linq;
+using System.Reflection;
 
 //1、配置类必须打[Configure]标签
 //2、必须放Editor目录
@@ -19,15 +21,26 @@ public class HelloworldCfg
     {
         get
         {
-            return new List<Type>()
-            {
-                typeof(Helloworld),
-                typeof(IFix.Test.Calculator),
-                //AnotherClass在Pro Standard Assets下，会编译到Assembly-CSharp-firstpass.dll下，用来演示多dll的修复
-                typeof(AnotherClass),
-            };
+            var lst = (from type in Assembly.Load("Assembly-CSharp").GetTypes() select type).ToList();
+            lst.Add(typeof(AnotherClass));
+            return lst;
         }
     }
+    
+    // [IFix]
+    // static IEnumerable<Type> hotfix
+    // {
+    //     get
+    //     {
+    //         return new List<Type>()
+    //         {
+    //             typeof(Helloworld),
+    //             typeof(IFix.Test.Calculator),
+    //             //AnotherClass在Pro Standard Assets下，会编译到Assembly-CSharp-firstpass.dll下，用来演示多dll的修复
+    //             typeof(AnotherClass),
+    //         };
+    //     }
+    // }
 
     [IFix.Filter]
     static bool Filter(System.Reflection.MethodInfo methodInfo)

@@ -17,6 +17,7 @@ namespace IFix.Test
             return a * b;
         }
 
+        // [Patch]
         public int Sub(int a, int b)
         {
             return a / b;

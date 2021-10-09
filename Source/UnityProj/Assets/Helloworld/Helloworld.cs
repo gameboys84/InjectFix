@@ -5,6 +5,7 @@
  * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
  */
 
+using System;
 using UnityEngine;
 using IFix.Core;
 using System.IO;
@@ -15,30 +16,44 @@ public class Helloworld : MonoBehaviour {
 
     // check and load patchs
     void Start () {
-        VirtualMachine.Info = (s) => UnityEngine.Debug.Log(s);
-        //try to load patch for Assembly-CSharp.dll
-        var patch = Resources.Load<TextAsset>("Assembly-CSharp.patch");
-        if (patch != null)
-        {
-            UnityEngine.Debug.Log("loading Assembly-CSharp.patch ...");
-            var sw = Stopwatch.StartNew();
-            PatchManager.Load(new MemoryStream(patch.bytes));
-            UnityEngine.Debug.Log("patch Assembly-CSharp.patch, using " + sw.ElapsedMilliseconds + " ms");
-        }
-        //try to load patch for Assembly-CSharp-firstpass.dll
-        patch = Resources.Load<TextAsset>("Assembly-CSharp-firstpass.patch");
-        if (patch != null)
-        {
-            UnityEngine.Debug.Log("loading Assembly-CSharp-firstpass ...");
-            var sw = Stopwatch.StartNew();
-            PatchManager.Load(new MemoryStream(patch.bytes));
-            UnityEngine.Debug.Log("patch Assembly-CSharp-firstpass, using " + sw.ElapsedMilliseconds + " ms");
-        }
-
-        test();
     }
 
-    [IFix.Patch]
+    private void OnGUI()
+    {
+        if (GUILayout.Button("BUTTON LOAD", new []{ GUILayout.Width(400), GUILayout.Height(260) }))
+        {
+            UnityEngine.Debug.Log("Button Clicked");
+            
+            VirtualMachine.Info = (s) => UnityEngine.Debug.Log(s);
+            //try to load patch for Assembly-CSharp.dll
+            var patch = Resources.Load<TextAsset>("Assembly-CSharp.patch");
+            if (patch != null)
+            {
+                UnityEngine.Debug.Log("loading Assembly-CSharp.patch ...");
+                var sw = Stopwatch.StartNew();
+                PatchManager.Load(new MemoryStream(patch.bytes));
+                UnityEngine.Debug.Log("patch Assembly-CSharp.patch, using " + sw.ElapsedMilliseconds + " ms");
+            }
+            //try to load patch for Assembly-CSharp-firstpass.dll
+            patch = Resources.Load<TextAsset>("Assembly-CSharp-firstpass.patch");
+            if (patch != null)
+            {
+                UnityEngine.Debug.Log("loading Assembly-CSharp-firstpass ...");
+                var sw = Stopwatch.StartNew();
+                PatchManager.Load(new MemoryStream(patch.bytes));
+                UnityEngine.Debug.Log("patch Assembly-CSharp-firstpass, using " + sw.ElapsedMilliseconds + " ms");
+            }
+
+            test();
+        }
+
+        if (GUILayout.Button("RUN", new[] {GUILayout.Width(400), GUILayout.Height(150)}))
+        {
+            test();
+        }
+    }
+
+    // [IFix.Patch]
     void test()
     {
         var calc = new IFix.Test.Calculator();
@@ -51,6 +66,47 @@ public class Helloworld : MonoBehaviour {
         //AnotherClass in Assembly-CSharp-firstpass.dll
         var ret = anotherClass.Call(i => i + 1);
         UnityEngine.Debug.Log("anotherClass.Call, ret = " + ret);
+
+        
+        // GameObject go = new GameObject("NewClassTest");
+        // var c = go.AddComponent<NewClassTest3>();
+        // UnityEngine.Debug.Log("NewClassTest over");
+
+        // NewClassTest2 cls = new NewClassTest2();
+        // cls.Test();
+        // UnityEngine.Debug.Log("NewClassTest2 over 1");
+        //
+        // cls.A = 10;
+        // cls.TestA();
+        // UnityEngine.Debug.Log("NewClassTest2 over 2");
+     
+        
+        // NewClassTest2 cls = new NewClassTest2();
+        // cls.Test();
+        // UnityEngine.Debug.Log("NewClassTest22 over 1");
+        
+        // cls.A = 10;
+        // cls.newValue = 112;
+        // NewClassTest2.newStaticValue = 12;
+        //
+        // cls.TestA();
+        // UnityEngine.Debug.Log("NewClassTest22 over 2");
+        //
+        // cls.TestNewFunc();
+        // UnityEngine.Debug.Log("NewClassTest22 over 3");
+        
+        
+        // 直接继承自MonoBehavior在应用patch时会报找不到此类 
+        // GameObject go = new GameObject("NewClassTest3");
+        // var c = go.AddComponent<NewClassTest3>();
+        // // NewClassTest3 cls3 = new NewClassTest3();
+        // // cls3.Start();
+        // UnityEngine.Debug.Log("NewClassTest3 over");
+        
+        var go = new GameObject("NewClassTest3");
+        var behaviour = go.AddComponent(typeof(VMBehaviourScript)) as VMBehaviourScript;
+        behaviour.VMMonoBehaviour = new NewClassTest3();
+        
 
         //test for InjectFix/Fix(Android) InjectFix/Fix(IOS) Menu for unity 2018.3 or newer
 #if UNITY_2018_3_OR_NEWER

@@ -34,7 +34,7 @@ public class HelloworldCfg
 
 1、这配置必须放在Editor目录下（例子的配置位于Helloworld/Editor目录下）；
 2、写配置的类需要打上Configure标签，属性必须打IFix标签并且声明为 **static** ；
-3、属性返回一个IEnumerable\&lt;Type\&gt;即可，由于Helloworld只需要简单的返回个List，因为这是个getter，你可以用linq+反射很方便的把大量的类给配上，例如你要一次加入XXX命名空间下所有类，可以这样：
+3、属性返回一个IEnumerable<Type>即可，由于Helloworld只需要简单的返回个List，因为这是个getter，你可以用linq+反射很方便的把大量的类给配上，例如你要一次加入XXX命名空间下所有类，可以这样：
 
 ~~~csharp
 [Configure]
