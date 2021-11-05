@@ -16,6 +16,16 @@
 
 
 
+## 工程同步重点
+
+1. 设置环境：UNITY_HOME，指向工程Unity安装目录
+2. 进入Source\VSProj下，运行 build_for_unity.bat，在Windows上即可以为Android和iOS生成补丁文件
+3. 拷贝Source\UnityProj\IFixToolKit下的文件到工程Tools下（同目录名IFixToolKit覆盖）
+4. 拷贝Source\UnityProj\Assets\Plugins\IFix.Core.dll和meta到工程Plugins下（同dll名覆盖）
+5. 拷贝Source\UnityProj\Assets\IFix下所有文件到工程Assets下（同目录名IFix覆盖）
+
+
+
 # 配置标签： [Configure]、[IFix]和[IFilter]
 
 ## **[Configure]**
