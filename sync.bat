@@ -3,7 +3,7 @@
 @title ====== 同步 InjectFix ======
 
 SET SrcUnityProj=E:\Git\InjectFix-Ni\Source\UnityProj
-SET DstUnityProj=F:\DeadEmpire-Git-DEV\DeadEmpire
+SET DstUnityProj=F:\DeadEmpire-Git-DEV\DeadEmpire-DEV
 
 REM 增量复制
 robocopy %SrcUnityProj%\IFixToolKit %DstUnityProj%\Tools\IFixToolKit /E /XX

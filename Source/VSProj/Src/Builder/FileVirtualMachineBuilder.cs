@@ -291,7 +291,10 @@ namespace IFix.Core
                 var instructionMagic = reader.ReadUInt64();
                 if (instructionMagic != Instruction.INSTRUCTION_FORMAT_MAGIC)
                 {
-                    throw new Exception("instruction magic not match, expect "
+                    //throw new Exception("instruction magic not match, expect "
+                    //    + Instruction.INSTRUCTION_FORMAT_MAGIC
+                    //    + ", but got " + instructionMagic);
+                    VirtualMachine._Info("instruction magic not match, expect "
                         + Instruction.INSTRUCTION_FORMAT_MAGIC
                         + ", but got " + instructionMagic);
                 }
