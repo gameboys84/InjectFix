@@ -1,6 +1,6 @@
 /*
  * Tencent is pleased to support the open source community by making InjectFix available.
- * Copyright (C) 2019 THL A29 Limited, a Tencent company.  All rights reserved.
+ * Copyright (C) 2019 Tencent.  All rights reserved.
  * InjectFix is licensed under the MIT License, except for the third-party components listed in the file 'LICENSE' which may be subject to their corresponding license terms. 
  * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
  */
@@ -166,7 +166,13 @@ namespace IFix
             if (type.IsRequiredModifier) return addExternType((type as RequiredModifierType).ElementType, contextType);
             if (type.IsGenericParameter || type.HasGenericArgumentFromMethod())
             {
-                throw new InvalidProgramException("try to use a generic type definition: " + type);
+                var genericTypeInfo = "{None}";
+                try {
+                    var genericType = (GenericParameter)type;
+                    var owner = (TypeDefinition)genericType.Owner;
+                    genericTypeInfo = string.Format("{{Owner: {0}, Scope: {1}}}", owner.FullName, genericType.Scope.Name);
+                } catch { }
+                throw new InvalidProgramException("try to use a generic type definition: " + type + ", generic type info: " + genericTypeInfo);
             }
             if (externTypeToId.ContainsKey(type))
             {
@@ -1095,7 +1101,7 @@ namespace IFix
             }
             if (methodToId.ContainsKey(callee))
             {
-                if (isCallvirt)
+                if (isCallvirt && isNewClass(callee.DeclaringType as TypeDefinition))
                 {
                     getVirtualMethodForType(method.DeclaringType);
                     if (virtualMethodToIndex.ContainsKey(callee))
@@ -3853,6 +3859,16 @@ namespace IFix
                 for (int i = 0; i < fields.Count; i++)
                 {
                     var fieldType = fields[i].FieldType;
+                    if (fieldType.IsGenericParameter)
+                    {
+                        var resolveType = ((GenericParameter)fieldType).ResolveGenericArgument(fields[i].DeclaringType);
+                        if (resolveType != null)
+                        {
+                            addExternType(resolveType);
+                            continue;
+                        }
+                    }
+
                     if (isCompilerGenerated(fieldType) || isNewClass(fieldType as TypeDefinition))
                     {
                         fieldType = objType;
